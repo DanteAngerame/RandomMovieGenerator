@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Movie Generator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Additional custom styles can be added here */
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Random Movie Generator</h1>
+    <div class="row mt-3">
+      <div class="col-md-6 offset-md-3">
+        <div class="text-center">
+          <button id="randomButton" class="btn btn-primary">Generate Random Movie</button>
+        </div>
+        <div class="mt-3 text-center">
+          <select id="movieSelect" class="form-select">
+            <option value="" selected disabled>Select a Movie</option>
+          </select>
+        </div>
+        <div id="movieDisplay" class="mt-4 text-center">
+          <!-- Movie title and image will be displayed here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    img{
+        width: 400px;
+    }
+  </style>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Array of movies with titles and corresponding image URLs
+    var movies =   [ {
+        Title: "Rollerball (1975)",
+        ReasonWhy: "A cool take on 70's visions of distopian futures mixed with entertaining sports scenes.",
+        ImageURL: "https://images-na.ssl-images-amazon.com/images/I/81WtHYechAL.jpg"
+    },
+    {
+        Title: "Planet of the Apes (1968)",
+        ReasonWhy: "A terrifying tale of what could befall mankind in the distant future.",
+        ImageURL: "https://lumiere-a.akamaihd.net/v1/images/planetoftheapes_1968_mainmenu_1600x686_cf582985.jpeg?region=0,0,1600,686",
+    },
+    {
+        Title: "2001: A Space Odyssey (1968)",
+        ReasonWhy: "A simple concept of AI gone rouge is more pertinent than ever. Incredible effects and score.",
+        ImageURL: "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/192/2022/11/08134731/ve72VxNqjGM69Uky4WTo2bK6rfq.jpg"
+    }
+]
+
+    // Function to generate a random movie
+    function generateRandomMovie() {
+      var randomIndex = Math.floor(Math.random() * movies.length);
+      var randomMovie = movies[randomIndex];
+      document.getElementById("movieDisplay").innerHTML = `
+        <h2>${randomMovie.Title}</h2>
+        <p>${randomMovie.ReasonWhy}</p>
+        <img src="${randomMovie.ImageURL}" alt="${randomMovie.Title}" class="img-fluid">
+      `;
+    }
+
+    // Populate dropdown menu with movie titles
+    function populateDropdown() {
+      var select = document.getElementById("movieSelect");
+      movies.forEach(function(movie) {
+        var option = document.createElement("option");
+        option.text = movie.Title;
+        option.value = movie.Title;
+        select.appendChild(option);
+      });
+    }
+
+    // Event listener for the button click
+    document.getElementById("randomButton").addEventListener("click", generateRandomMovie);
+
+    // Event listener for dropdown selection
+    document.getElementById("movieSelect").addEventListener("change", function() {
+      var selectedMovie = this.value;
+      var selectedMovieObj = movies.find(movie => movie.Title === selectedMovie);
+      if (selectedMovieObj) {
+        document.getElementById("movieDisplay").innerHTML = `
+          <h2>${selectedMovieObj.Title}</h2>
+          <p>${selectedMovieObj.ReasonWhy}</p>
+          <img src="${selectedMovieObj.ImageURL}" alt="${selectedMovieObj.Title}" class="img-fluid">
+        `;
+      }
+    });
+
+    // Initialize dropdown menu
+    populateDropdown();
+  </script>
+</body>
+</html>
